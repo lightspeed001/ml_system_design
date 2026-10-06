@@ -1,0 +1,33 @@
+%% Simple architecture overview — social-media edition
+flowchart TB
+    clients["Clients — web · partners · internal"] --> gw["Agent Gateway — auth · quotas · metering"]
+    gw --> cp
+
+    subgraph cp["Agentic Control Plane"]
+        orch["Orchestrator + Temporal"]
+        tools["MCP Tools + gVisor sandboxes"]
+        mem["Memory & RAG"]
+        guard["Guardrails & Evals"]
+    end
+
+    cp <--> nats[["NATS JetStream — event backbone"]]
+    cp --> router
+
+    subgraph serving["SGLang Serving — OpenAI-compatible API"]
+        router["sgl-router — cache-aware"]
+        router --> p1["Agent LLMs · 8×H100"]
+        router --> p2["Reasoning XL · InfiniBand"]
+        router --> p3["Embeddings · VLMs"]
+    end
+
+    cp --> data
+    serving --> data
+
+    subgraph data["Data Plane — self-hosted & portable"]
+        pg[("Postgres + pgvector")]
+        vk[("Valkey")]
+        s3[("MinIO / S3")]
+        hb[("Harbor")]
+    end
+
+    data --> k8s["Kubernetes — AKS today ⇄ bare-metal on-prem, same GitOps base"]
