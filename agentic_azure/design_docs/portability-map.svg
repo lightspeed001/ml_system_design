@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 920" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
+  <rect x="0" y="0" width="1440" height="920" fill="#FAFBFC"/>
+
+  <text x="720" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#1A237E">Portability map — what changes (and what stays identical) between AKS and on-prem</text>
+  <text x="720" y="62" text-anchor="middle" font-size="12.5" fill="#555">Design rule: a component only enters the stack if it runs on bare metal. Environment specifics are confined to GitOps overlays + IaC modules.</text>
+
+  <!-- Header row -->
+  <rect x="40" y="90" width="260" height="44" fill="#ECEFF1" stroke="#B0BEC5"/>
+  <text x="170" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="#37474F">CAPABILITY</text>
+  <rect x="300" y="90" width="560" height="44" fill="#E3F2FD" stroke="#1976D2"/>
+  <text x="580" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="#0D47A1">AZURE (AKS) — environment adapter</text>
+  <rect x="860" y="90" width="540" height="44" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="1130" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="#1B5E20">ON-PREM KUBERNETES — environment adapter</text>
+
+  <!-- Rows -->
+  <g font-size="11.5" fill="#37474F">
+    <rect x="40" y="134" width="1360" height="52" fill="#FFFFFF" stroke="#CFD8DC"/>
+    <text x="56" y="156" font-weight="700">Kubernetes control plane</text>
+    <text x="316" y="156">AKS managed — SLA, auto-upgrade, private API server</text>
+    <text x="876" y="156">kubeadm / RKE2 / Cluster API — self-managed HA etcd</text>
+    <text x="316" y="174" font-size="10" fill="#78909C">Mechanism: same Kubernetes API · same workload manifests</text>
+
+    <rect x="40" y="186" width="1360" height="52" fill="#F6F8FA" stroke="#CFD8DC"/>
+    <text x="56" y="208" font-weight="700">GPU nodes</text>
+    <text x="316" y="208">ND H100/H200 v5 VMs · NVLink + 8×400 Gb InfiniBand</text>
+    <text x="876" y="208">Bare-metal H100/H200 · NVLink + IB fabric</text>
+    <text x="316" y="226" font-size="10" fill="#78909C">Mechanism: NVIDIA GPU Operator + Node Feature Discovery in both worlds</text>
+
+    <rect x="40" y="238" width="1360" height="52" fill="#FFFFFF" stroke="#CFD8DC"/>
+    <text x="56" y="260" font-weight="700">CNI &amp; network policy</text>
+    <text x="316" y="260">Cilium (Azure CNI powered by Cilium)</text>
+    <text x="876" y="260">Cilium — identical manifests</text>
+    <text x="316" y="278" font-size="10" fill="#78909C">Mechanism: one CNI everywhere · mTLS + L3/L7 policy unchanged</text>
+    <rect x="1296" y="254" width="88" height="20" rx="10" fill="#C8E6C9" stroke="#2E7D32"/>
+    <text x="1340" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#1B5E20">identical</text>
+
+    <rect x="40" y="290" width="1360" height="52" fill="#F6F8FA" stroke="#CFD8DC"/>
+    <text x="56" y="312" font-weight="700">Ingress &amp; load balancing</text>
+    <text x="316" y="312">ingress-nginx + Azure LB (cloud-controller-manager)</text>
+    <text x="876" y="312">ingress-nginx + MetalLB / BGP peering</text>
+    <text x="316" y="330" font-size="10" fill="#78909C">Mechanism: Service type=LoadBalancer is the only abstraction used</text>
+
+    <rect x="40" y="342" width="1360" height="52" fill="#FFFFFF" stroke="#CFD8DC"/>
+    <text x="56" y="364" font-weight="700">Object storage (S3 API)</text>
+    <text x="316" y="364">MinIO on AKS (+ optional Blob replication target)</text>
+    <text x="876" y="364">MinIO or Ceph RGW</text>
+    <text x="316" y="382" font-size="10" fill="#78909C">Mechanism: S3 API only — Azure Blob has no native S3 endpoint</text>
+
+    <rect x="40" y="394" width="1360" height="52" fill="#F6F8FA" stroke="#CFD8DC"/>
+    <text x="56" y="416" font-weight="700">Block &amp; file storage</text>
+    <text x="316" y="416">Azure Disk / Azure Files NFS via CSI drivers</text>
+    <text x="876" y="416">Ceph RBD / CephFS + local NVMe for model caches</text>
+    <text x="316" y="434" font-size="10" fill="#78909C">Mechanism: PVCs only reference StorageClasses defined per overlay</text>
+
+    <rect x="40" y="446" width="1360" height="52" fill="#FFFFFF" stroke="#CFD8DC"/>
+    <text x="56" y="468" font-weight="700">Secrets</text>
+    <text x="316" y="468">Vault (HA) + External Secrets Operator</text>
+    <text x="876" y="468">Vault (HA) + External Secrets Operator</text>
+    <text x="316" y="486" font-size="10" fill="#78909C">Mechanism: pluggable unseal (cloud KMS ⇄ HSM/PKCS#11)</text>
+    <rect x="1296" y="462" width="88" height="20" rx="10" fill="#C8E6C9" stroke="#2E7D32"/>
+    <text x="1340" y="476" text-anchor="middle" font-size="10" font-weight="700" fill="#1B5E20">identical</text>
+
+    <rect x="40" y="498" width="1360" height="52" fill="#F6F8FA" stroke="#CFD8DC"/>
+    <text x="56" y="520" font-weight="700">Identity (OIDC)</text>
+    <text x="316" y="520">Entra ID — app registrations, conditional access</text>
+    <text x="876" y="520">Dex / Keycloak as OIDC issuer</text>
+    <text x="316" y="538" font-size="10" fill="#78909C">Mechanism: gateway validates standard JWTs · issuer URL is an overlay value</text>
+
+    <rect x="40" y="550" width="1360" height="52" fill="#FFFFFF" stroke="#CFD8DC"/>
+    <text x="56" y="572" font-weight="700">DNS &amp; certificates</text>
+    <text x="316" y="572">Azure Private DNS + cert-manager</text>
+    <text x="876" y="572">Internal DNS + cert-manager (private CA)</text>
+    <text x="316" y="590" font-size="10" fill="#78909C">Mechanism: Certificate/Issuer CRs parameterized per overlay</text>
+
+    <rect x="40" y="602" width="1360" height="52" fill="#F6F8FA" stroke="#CFD8DC"/>
+    <text x="56" y="624" font-weight="700">Node scaling</text>
+    <text x="316" y="624">Cluster autoscaler / AKS node autoprovisioner</text>
+    <text x="876" y="624">Static capacity + ResourceQuotas</text>
+    <text x="316" y="642" font-size="10" fill="#78909C">Mechanism: KEDA workload autoscaling is unchanged in both</text>
+
+    <rect x="40" y="654" width="1360" height="52" fill="#FFFFFF" stroke="#CFD8DC"/>
+    <text x="56" y="676" font-weight="700">Backup &amp; DR</text>
+    <text x="316" y="676">Velero → Azure Blob snapshot target</text>
+    <text x="876" y="676">Velero → S3/MinIO target</text>
+    <text x="316" y="694" font-size="10" fill="#78909C">Mechanism: BackupStorageLocation is an overlay object</text>
+
+    <rect x="40" y="706" width="1360" height="52" fill="#F6F8FA" stroke="#CFD8DC"/>
+    <text x="56" y="728" font-weight="700">Telemetry</text>
+    <text x="316" y="728">Self-hosted OTel · Prometheus · Grafana · Loki · Tempo</text>
+    <text x="876" y="728">Self-hosted OTel · Prometheus · Grafana · Loki · Tempo</text>
+    <text x="316" y="746" font-size="10" fill="#78909C">Mechanism: no dependency on Azure Monitor (optional export only)</text>
+    <rect x="1296" y="722" width="88" height="20" rx="10" fill="#C8E6C9" stroke="#2E7D32"/>
+    <text x="1340" y="736" text-anchor="middle" font-size="10" font-weight="700" fill="#1B5E20">identical</text>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="40" y="782" width="1360" height="92" rx="10" fill="#E8EAF6" stroke="#3949AB" stroke-width="1.5"/>
+  <text x="720" y="810" text-anchor="middle" font-size="13.5" font-weight="700" fill="#283593">The “thin waist”: Kubernetes API · S3 · OIDC · OCI artifacts · OpenAI-compatible model API</text>
+  <text x="720" y="834" text-anchor="middle" font-size="12" fill="#37474F">Everything above these five contracts is written once and deployed everywhere — the base/ of a single GitOps repository.</text>
+  <text x="720" y="856" text-anchor="middle" font-size="12" fill="#37474F">Moving AKS → on-prem: swap the overlay + IaC module. Zero application code changes · zero manifest rewrites · zero client changes.</text>
+</svg>

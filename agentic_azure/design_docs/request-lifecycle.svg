@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 860" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="solid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#37474F"/>
+    </marker>
+    <marker id="dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#78909C"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1440" height="860" fill="#FAFBFC"/>
+  <text x="720" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1A237E">Agent run — request lifecycle (durable, streamed, observable)</text>
+  <text x="720" y="56" text-anchor="middle" font-size="12" fill="#555">Solid arrows = request · dashed arrows = response · every step emits an OTel span with model, tokens, TTFT and cost</text>
+
+  <!-- Participant headers -->
+  <g font-size="12.5" font-weight="700">
+    <rect x="70" y="74" width="180" height="48" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
+    <text x="160" y="95" text-anchor="middle" fill="#1A237E">Client</text>
+    <text x="160" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#455A64">web / API consumer</text>
+
+    <rect x="290" y="74" width="180" height="48" rx="8" fill="#FFF3E0" stroke="#EF6C00" stroke-width="1.5"/>
+    <text x="380" y="95" text-anchor="middle" fill="#E65100">Agent Gateway</text>
+    <text x="380" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#455A64">OIDC · quotas · metering</text>
+
+    <rect x="520" y="74" width="200" height="48" rx="8" fill="#E8EAF6" stroke="#3949AB" stroke-width="1.5"/>
+    <text x="620" y="95" text-anchor="middle" fill="#283593">Orchestrator</text>
+    <text x="620" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#455A64">Temporal-backed agent loop</text>
+
+    <rect x="770" y="74" width="220" height="48" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+    <text x="880" y="95" text-anchor="middle" fill="#1B5E20">SGLang Router → Engine</text>
+    <text x="880" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#455A64">H100/H200 pools · prefix cache</text>
+
+    <rect x="1010" y="74" width="200" height="48" rx="8" fill="#E0F2F1" stroke="#00695C" stroke-width="1.5"/>
+    <text x="1110" y="95" text-anchor="middle" fill="#004D40">MCP Tools</text>
+    <text x="1110" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#455A64">gVisor sandbox for untrusted</text>
+
+    <rect x="1230" y="74" width="180" height="48" rx="8" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="1.5"/>
+    <text x="1320" y="95" text-anchor="middle" fill="#4A148C">Memory / RAG</text>
+    <text x="1320" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#455A64">pgvector · Valkey</text>
+  </g>
+
+  <!-- Lifelines -->
+  <g stroke="#90A4AE" stroke-width="1.4" stroke-dasharray="4 5">
+    <line x1="160" y1="122" x2="160" y2="740"/>
+    <line x1="380" y1="122" x2="380" y2="740"/>
+    <line x1="620" y1="122" x2="620" y2="740"/>
+    <line x1="880" y1="122" x2="880" y2="740"/>
+    <line x1="1110" y1="122" x2="1110" y2="740"/>
+    <line x1="1320" y1="122" x2="1320" y2="740"/>
+  </g>
+
+  <!-- Pre-loop messages -->
+  <g font-size="11.5" fill="#37474F">
+    <line x1="160" y1="150" x2="374" y2="150" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="267" y="142" text-anchor="middle">1 · POST /v1/agents/{agent}/runs — SSE streaming</text>
+
+    <line x1="380" y1="190" x2="614" y2="190" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="497" y="182" text-anchor="middle">2 · authenticate · quota check · start durable run</text>
+
+    <line x1="620" y1="230" x2="1314" y2="230" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="967" y="222" text-anchor="middle">3 · load session + hybrid RAG retrieval + tool schemas</text>
+
+    <line x1="1320" y1="270" x2="626" y2="270" stroke="#78909C" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#dashed)"/>
+    <text x="973" y="262" text-anchor="middle">4 · context pack (docs · episodic memory · policies)</text>
+  </g>
+
+  <!-- Loop frame -->
+  <rect x="560" y="336" width="820" height="300" rx="6" fill="none" stroke="#3949AB" stroke-width="1.6"/>
+  <rect x="560" y="336" width="300" height="22" rx="4" fill="#3949AB"/>
+  <text x="572" y="352" font-size="11" font-weight="700" fill="#FFFFFF">loop — until final answer ∨ budget exhausted</text>
+
+  <g font-size="11.5" fill="#37474F">
+    <line x1="620" y1="382" x2="874" y2="382" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="747" y="374" text-anchor="middle">5 · chat/completions: tools[] + JSON-schema grammar · stream</text>
+
+    <line x1="880" y1="422" x2="626" y2="422" stroke="#78909C" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#dashed)"/>
+    <text x="753" y="414" text-anchor="middle">6 · tokens + tool_call (schema-valid by construction)</text>
+
+    <line x1="620" y1="462" x2="1104" y2="462" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="862" y="454" text-anchor="middle">7 · MCP tool invocation (sandboxed pod if untrusted)</text>
+
+    <line x1="1110" y1="502" x2="626" y2="502" stroke="#78909C" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#dashed)"/>
+    <text x="868" y="494" text-anchor="middle">8 · observation / tool result</text>
+
+    <line x1="620" y1="542" x2="1314" y2="542" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="967" y="534" text-anchor="middle">9 · persist step · update memory (async via JetStream)</text>
+  </g>
+
+  <rect x="580" y="562" width="780" height="56" rx="6" fill="#FFFDE7" stroke="#F9A825"/>
+  <text x="970" y="584" text-anchor="middle" font-size="11" fill="#6D5300">Guardrails scan every LLM input/output · budget guards enforce steps / tokens / wall-clock / cost</text>
+  <text x="970" y="602" text-anchor="middle" font-size="11" fill="#6D5300">Session affinity pins the run to the SGLang replica holding its KV cache (RadixAttention prefix reuse)</text>
+
+  <!-- Post-loop -->
+  <g font-size="11.5" fill="#37474F">
+    <line x1="620" y1="676" x2="386" y2="676" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="503" y="668" text-anchor="middle">10 · final answer stream + citations + usage report</text>
+
+    <line x1="380" y1="716" x2="166" y2="716" stroke="#37474F" stroke-width="1.6" marker-end="url(#solid)"/>
+    <text x="273" y="708" text-anchor="middle">11 · SSE tokens → final message · audit log · cost metering</text>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="60" y="752" width="1320" height="76" rx="8" fill="#E8EAF6" stroke="#3949AB" stroke-width="1.4"/>
+  <text x="720" y="780" text-anchor="middle" font-size="12" fill="#283593">Temporal checkpoints the run at every step — runs survive pod restarts, node drains and cluster upgrades; human approvals pause as durable signals.</text>
+  <text x="720" y="804" text-anchor="middle" font-size="12" fill="#283593">SGLang prefix caching reuses the growing agent context (system prompt + tool schemas + history) across iterations → large TTFT and compute savings.</text>
+</svg>

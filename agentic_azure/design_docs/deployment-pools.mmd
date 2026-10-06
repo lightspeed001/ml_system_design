@@ -1,0 +1,33 @@
+%% AKS deployment view — node pools
+flowchart TB
+  lb["Azure Load Balancer + ingress-nginx"]
+
+  subgraph aks["AKS cluster — Cilium CNI · private VNet · no public API server"]
+    subgraph sys["System node pool — D-series, 3+ nodes, multi-AZ"]
+      plat["Platform: Argo CD · Vault · cert-manager · OTel collectors"]
+      core["Core: CoreDNS · Cilium agents · GPU Operator"]
+    end
+
+    subgraph work["Workload node pool — D8ds-class, autoscaling 3–30"]
+      cp["Agent Gateway · Orchestrator · Temporal · MCP tool servers"]
+      dp["CloudNativePG HA · Valkey · NATS · MinIO · Harbor"]
+    end
+
+    subgraph gpu1["GPU pool A — ND H100 v5 (8×H100, NVLink)"]
+      sg1["SGLang agent/chat engines · TP≤8 · KEDA-scaled"]
+    end
+
+    subgraph gpu2["GPU pool B — ND H200-class, InfiniBand"]
+      sg2["SGLang large reasoning engines · multi-node TP"]
+    end
+
+    subgraph gpu3["GPU pool C — A100/L4-class"]
+      sg3["Embeddings · rerankers · VLMs · utility models"]
+    end
+  end
+
+  lb --> sys
+  sys --> work
+  work -- "OpenAI-compatible API via sgl-router" --> gpu1
+  work --> gpu2
+  work --> gpu3

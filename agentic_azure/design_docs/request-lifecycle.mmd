@@ -1,0 +1,26 @@
+%% Agent run request lifecycle
+sequenceDiagram
+  autonumber
+  participant C as Client
+  participant G as Agent Gateway
+  participant O as Orchestrator (Temporal)
+  participant D as Memory / RAG (pgvector)
+  participant S as SGLang Router → Engine
+  participant T as MCP Tools (sandbox)
+
+  C->>G: POST /v1/agents/{agent}/runs (SSE stream)
+  G->>O: authenticate · quota check · start durable run
+  O->>D: load session + hybrid retrieval + tool schemas
+  D-->>O: context pack (docs · episodic memory · policies)
+
+  loop until final answer or budget exhausted
+    O->>S: chat/completions with tools[] + JSON-schema grammar, streaming
+    S-->>O: tokens + tool_call (guaranteed-valid structured output)
+    O->>T: invoke tool via MCP (sandboxed pod if untrusted)
+    T-->>O: observation / tool result
+    O->>D: persist step · update memory (async via JetStream)
+    Note over O: guardrail checks on every LLM input/output + one OTel span per step
+  end
+
+  O->>G: final answer stream + citations + usage report
+  G->>C: SSE tokens → final message · audit log · cost metering

@@ -1,0 +1,63 @@
+%% Architecture overview — Custom Agentic Platform on AKS + SGLang
+flowchart TB
+  subgraph clients["Clients"]
+    web["Web & mobile apps"]
+    partners["Partner / 3rd-party APIs"]
+    internal["Internal systems & jobs"]
+  end
+
+  subgraph edge["Edge & agent gateway"]
+    ingress["Ingress: ingress-nginx / Envoy + WAF"]
+    gw["Agent Gateway — OIDC authn/z · quotas · routing · token metering · audit"]
+  end
+
+  subgraph control["Agentic control plane (custom-built, all OSS)"]
+    orch["Orchestrator — agent loop (plan → act → observe)"]
+    temporal["Temporal — durable execution"]
+    mcp["MCP tool servers + tool registry"]
+    sandbox["Sandboxed execution (gVisor/Kata)"]
+    guard["Guardrails — OPA policies · injection/output checks"]
+    memory["Memory service"]
+    rag["RAG pipeline"]
+    evals["Evals — offline harness + online sampling"]
+  end
+
+  bus[["NATS JetStream — event backbone"]]
+
+  subgraph serving["Model serving plane — SGLang (OpenAI-compatible API)"]
+    router["SGLang Router — cache-aware load balancing"]
+    poolA["Agent/chat LLM pool — H100/H200"]
+    poolB["Large reasoning pool — multi-node TP over InfiniBand"]
+    poolC["VLM + utility model pool"]
+    poolD["Embedding & reranker pool"]
+  end
+
+  subgraph data["Data plane"]
+    pg[("PostgreSQL + pgvector (CloudNativePG)")]
+    valkey[("Valkey")]
+    minio[("MinIO / S3")]
+    harbor[("Harbor OCI registry")]
+    qdrant[("Qdrant — optional scale-out")]
+  end
+
+  subgraph platform["Platform services"]
+    obs["Observability — OTel · Prometheus · Grafana · Loki · Tempo"]
+    gitops["GitOps — Argo CD · Tekton"]
+    sec["Security — Vault · Kyverno · Falco · cosign"]
+  end
+
+  clients --> ingress --> gw --> orch
+  orch <--> temporal
+  orch --> mcp
+  mcp --> sandbox
+  orch --> guard
+  orch --> memory
+  orch --> rag
+  orch <--> bus
+  orch -- "chat/completions + tools" --> router
+  router --> poolA & poolB & poolC
+  rag --> poolD
+  memory --> valkey & pg
+  rag --> pg & qdrant & minio
+  serving -. "metrics · traces · logs" .-> obs
+  gitops -. "deploys everything" .-> control & serving & data

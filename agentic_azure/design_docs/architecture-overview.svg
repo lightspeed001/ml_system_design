@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1330" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#546E7A"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1440" height="1330" fill="#FAFBFC"/>
+
+  <!-- Title -->
+  <text x="720" y="38" text-anchor="middle" font-size="25" font-weight="700" fill="#1A237E">Custom Agentic AI Platform — Azure AKS + SGLang</text>
+  <text x="720" y="62" text-anchor="middle" font-size="13" fill="#555">Portable by construction: every workload component is open source and runs identically on bare-metal Kubernetes</text>
+
+  <!-- Portability bracket -->
+  <line x1="26" y1="100" x2="26" y2="1225" stroke="#90A4AE" stroke-width="2"/>
+  <line x1="26" y1="100" x2="36" y2="100" stroke="#90A4AE" stroke-width="2"/>
+  <line x1="26" y1="1225" x2="36" y2="1225" stroke="#90A4AE" stroke-width="2"/>
+  <text x="16" y="662" transform="rotate(-90 16 662)" text-anchor="middle" font-size="12" fill="#78909C" letter-spacing="2">PORTABLE WORKLOAD LAYER — IDENTICAL ON AKS AND ON-PREM</text>
+
+  <!-- Clients -->
+  <text x="46" y="96" font-size="11" font-weight="700" fill="#1565C0">CLIENTS</text>
+  <g>
+    <rect x="250" y="108" width="280" height="60" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
+    <text x="390" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#1A237E">Web &amp; Mobile Apps</text>
+    <text x="390" y="152" text-anchor="middle" font-size="10.5" fill="#455A64">user-facing copilots</text>
+
+    <rect x="580" y="108" width="280" height="60" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
+    <text x="720" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#1A237E">Partner / 3rd-Party APIs</text>
+    <text x="720" y="152" text-anchor="middle" font-size="10.5" fill="#455A64">API-key scoped tenants</text>
+
+    <rect x="910" y="108" width="280" height="60" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
+    <text x="1050" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#1A237E">Internal Systems &amp; Jobs</text>
+    <text x="1050" y="152" text-anchor="middle" font-size="10.5" fill="#455A64">automation · webhooks</text>
+  </g>
+  <line x1="720" y1="168" x2="720" y2="194" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Edge & gateway -->
+  <rect x="40" y="200" width="1360" height="96" rx="10" fill="#FFF3E0" stroke="#EF6C00" stroke-width="1.5"/>
+  <text x="56" y="222" font-size="12" font-weight="700" fill="#E65100">EDGE &amp; AGENT GATEWAY</text>
+  <rect x="60" y="232" width="380" height="50" rx="6" fill="#FFFFFF" stroke="#EF6C00"/>
+  <text x="250" y="252" text-anchor="middle" font-size="12.5" font-weight="700" fill="#222">Ingress — ingress-nginx / Envoy + WAF</text>
+  <text x="250" y="269" text-anchor="middle" font-size="10" fill="#555">TLS termination · canary routing</text>
+  <rect x="460" y="232" width="920" height="50" rx="6" fill="#FFFFFF" stroke="#EF6C00"/>
+  <text x="920" y="252" text-anchor="middle" font-size="12.5" font-weight="700" fill="#222">Agent Gateway (custom)</text>
+  <text x="920" y="269" text-anchor="middle" font-size="10" fill="#555">OIDC authn/z · rate &amp; quota limits · agent/model routing · token &amp; cost metering · audit log</text>
+  <line x1="720" y1="296" x2="720" y2="322" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Agentic control plane -->
+  <rect x="40" y="328" width="1360" height="252" rx="10" fill="#E8EAF6" stroke="#3949AB" stroke-width="1.5"/>
+  <text x="56" y="350" font-size="12" font-weight="700" fill="#283593">AGENTIC CONTROL PLANE — custom-built, all open source</text>
+  <g font-size="10.5" fill="#455A64">
+    <rect x="64" y="362" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="80" y="382" font-size="12.5" font-weight="700" fill="#222">Orchestrator</text>
+    <text x="80" y="402">agent loop: plan → act → observe</text>
+    <text x="80" y="418">supervisor &amp; specialist hand-offs</text>
+    <text x="80" y="434">budgets: steps · tokens · cost</text>
+
+    <rect x="398" y="362" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="414" y="382" font-size="12.5" font-weight="700" fill="#222">Temporal</text>
+    <text x="414" y="402">durable execution: retries, timers,</text>
+    <text x="414" y="418">long runs, human-in-the-loop</text>
+
+    <rect x="732" y="362" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="748" y="382" font-size="12.5" font-weight="700" fill="#222">MCP Tool Servers</text>
+    <text x="748" y="402">tool registry · stdio/HTTP MCP</text>
+    <text x="748" y="418">enterprise connectors</text>
+
+    <rect x="1066" y="362" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="1082" y="382" font-size="12.5" font-weight="700" fill="#222">Sandboxed Execution</text>
+    <text x="1082" y="402">gVisor/Kata pods for untrusted</text>
+    <text x="1082" y="418">code · browser · shell tools</text>
+
+    <rect x="64" y="462" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="80" y="482" font-size="12.5" font-weight="700" fill="#222">Guardrails &amp; Policy</text>
+    <text x="80" y="502">OPA policies · PII redaction</text>
+    <text x="80" y="518">prompt-injection &amp; output checks</text>
+
+    <rect x="398" y="462" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="414" y="482" font-size="12.5" font-weight="700" fill="#222">Memory Service</text>
+    <text x="414" y="502">working &amp; episodic: Valkey / PG</text>
+    <text x="414" y="518">semantic memory: pgvector</text>
+
+    <rect x="732" y="462" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="748" y="482" font-size="12.5" font-weight="700" fill="#222">RAG Pipeline</text>
+    <text x="748" y="502">ingest → chunk → embed → index</text>
+    <text x="748" y="518">hybrid search + rerank</text>
+
+    <rect x="1066" y="462" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#3949AB"/>
+    <text x="1082" y="482" font-size="12.5" font-weight="700" fill="#222">Evals &amp; Experiments</text>
+    <text x="1082" y="502">offline harness + online sampling</text>
+    <text x="1082" y="518">regression gates in CI</text>
+  </g>
+  <line x1="720" y1="580" x2="720" y2="606" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Event backbone -->
+  <rect x="40" y="612" width="1360" height="56" rx="10" fill="#FFF8E1" stroke="#F9A825" stroke-width="1.5"/>
+  <text x="720" y="636" text-anchor="middle" font-size="13" font-weight="700" fill="#7A5B00">NATS JetStream — event backbone</text>
+  <text x="720" y="655" text-anchor="middle" font-size="11" fill="#6D5300">inter-agent messaging · async tool results · webhooks · task fan-out · audit events</text>
+  <line x1="720" y1="668" x2="720" y2="694" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Model serving plane -->
+  <rect x="40" y="700" width="1360" height="232" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="56" y="722" font-size="12" font-weight="700" fill="#1B5E20">MODEL SERVING PLANE — SGLang (OpenAI-compatible API)</text>
+  <rect x="64" y="734" width="1312" height="46" rx="6" fill="#FFFFFF" stroke="#2E7D32"/>
+  <text x="720" y="762" text-anchor="middle" font-size="12" font-weight="700" fill="#222">SGLang Router (sgl-router) — cache-aware load balancing (RadixAttention locality) · retries · model registry · canary splits</text>
+  <g font-size="10.5" fill="#455A64">
+    <rect x="64" y="796" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#2E7D32"/>
+    <text x="80" y="818" font-size="12.5" font-weight="700" fill="#222">Agent / Chat LLM pool</text>
+    <text x="80" y="838">32B–70B FP8 · TP≤8 within node</text>
+    <text x="80" y="854">H100/H200 · NVLink · spec. decoding</text>
+
+    <rect x="398" y="796" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#2E7D32"/>
+    <text x="414" y="818" font-size="12.5" font-weight="700" fill="#222">Large reasoning pool</text>
+    <text x="414" y="838">≤405B FP8 · multi-node TP &gt;200B</text>
+    <text x="414" y="854">InfiniBand (ND IB-class nodes)</text>
+
+    <rect x="732" y="796" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#2E7D32"/>
+    <text x="748" y="818" font-size="12.5" font-weight="700" fill="#222">Vision / multimodal pool</text>
+    <text x="748" y="838">VLMs + small utility models</text>
+    <text x="748" y="854">A100 / L4-class GPUs</text>
+
+    <rect x="1066" y="796" width="316" height="84" rx="6" fill="#FFFFFF" stroke="#2E7D32"/>
+    <text x="1082" y="818" font-size="12.5" font-weight="700" fill="#222">Embeddings &amp; rerankers</text>
+    <text x="1082" y="838">batched serving · GPU</text>
+    <text x="1082" y="854">feeds the RAG pipeline</text>
+  </g>
+  <text x="720" y="916" text-anchor="middle" font-size="11" font-style="italic" fill="#33691E">KEDA scales replicas on SGLang metrics — queue depth · KV-cache pressure · TTFT   |   long cooldowns protect warm prefix caches · scale-to-zero for cold models</text>
+  <line x1="720" y1="932" x2="720" y2="958" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Data plane -->
+  <rect x="40" y="964" width="1360" height="104" rx="10" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="1.5"/>
+  <text x="56" y="986" font-size="12" font-weight="700" fill="#4A148C">DATA PLANE — self-hosted, portable stores</text>
+  <g font-size="9.8" fill="#455A64">
+    <rect x="66" y="996" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#7B1FA2"/>
+    <text x="192" y="1018" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">PostgreSQL + pgvector</text>
+    <text x="192" y="1036" text-anchor="middle">CloudNativePG HA · agent state · memory</text>
+
+    <rect x="330" y="996" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#7B1FA2"/>
+    <text x="456" y="1018" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">Valkey</text>
+    <text x="456" y="1036" text-anchor="middle">session state · counters · hot cache</text>
+
+    <rect x="594" y="996" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#7B1FA2"/>
+    <text x="720" y="1018" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">MinIO (S3 API)</text>
+    <text x="720" y="1036" text-anchor="middle">documents · weights · artifacts · backups</text>
+
+    <rect x="858" y="996" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#7B1FA2"/>
+    <text x="984" y="1018" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">Harbor (OCI)</text>
+    <text x="984" y="1036" text-anchor="middle">images · model artifacts · signing</text>
+
+    <rect x="1122" y="996" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#7B1FA2"/>
+    <text x="1248" y="1018" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">Qdrant (optional)</text>
+    <text x="1248" y="1036" text-anchor="middle">if vector scale outgrows pgvector</text>
+  </g>
+  <line x1="720" y1="1068" x2="720" y2="1094" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Platform services -->
+  <rect x="40" y="1100" width="1360" height="104" rx="10" fill="#ECEFF1" stroke="#546E7A" stroke-width="1.5"/>
+  <text x="56" y="1122" font-size="12" font-weight="700" fill="#37474F">PLATFORM SERVICES</text>
+  <g font-size="9.8" fill="#455A64">
+    <rect x="66" y="1132" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#546E7A"/>
+    <text x="192" y="1152" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">Observability</text>
+    <text x="192" y="1168" text-anchor="middle">OTel GenAI · Prometheus · Grafana</text>
+    <text x="192" y="1182" text-anchor="middle">Loki · Tempo</text>
+
+    <rect x="330" y="1132" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#546E7A"/>
+    <text x="456" y="1152" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">GitOps &amp; CI</text>
+    <text x="456" y="1168" text-anchor="middle">Argo CD · Tekton</text>
+    <text x="456" y="1182" text-anchor="middle">overlays: azure/ | onprem/</text>
+
+    <rect x="594" y="1132" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#546E7A"/>
+    <text x="720" y="1152" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">Security &amp; Policy</text>
+    <text x="720" y="1168" text-anchor="middle">Vault · ESO · Kyverno · Falco</text>
+    <text x="720" y="1182" text-anchor="middle">cosign · Trivy</text>
+
+    <rect x="858" y="1132" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#546E7A"/>
+    <text x="984" y="1152" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">GPU &amp; Autoscaling</text>
+    <text x="984" y="1168" text-anchor="middle">NVIDIA GPU Operator · NFD</text>
+    <text x="984" y="1182" text-anchor="middle">KEDA · MIG</text>
+
+    <rect x="1122" y="1132" width="252" height="58" rx="6" fill="#FFFFFF" stroke="#546E7A"/>
+    <text x="1248" y="1152" text-anchor="middle" font-size="11.5" font-weight="700" fill="#222">Resilience</text>
+    <text x="1248" y="1168" text-anchor="middle">Velero · multi-AZ placement</text>
+    <text x="1248" y="1182" text-anchor="middle">PodDisruptionBudgets</text>
+  </g>
+  <line x1="720" y1="1204" x2="720" y2="1226" stroke="#546E7A" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Substrate -->
+  <rect x="40" y="1232" width="1360" height="70" rx="10" fill="#263238"/>
+  <text x="720" y="1262" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">AKS (Azure)   ⇄   On-prem Kubernetes (kubeadm / RKE2 / Cluster API)</text>
+  <text x="720" y="1284" text-anchor="middle" font-size="11.5" fill="#B0BEC5">Portability boundary — everything above this line is environment-identical; substrate specifics live in GitOps overlays &amp; IaC modules only</text>
+</svg>

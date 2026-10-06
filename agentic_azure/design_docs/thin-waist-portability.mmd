@@ -1,0 +1,32 @@
+%% The thin waist — portable contracts between Azure and on-prem
+flowchart LR
+  subgraph az["Azure (today)"]
+    aks["AKS control plane"]
+    gpuaz["ND H100/H200 VMs"]
+    lbaz["Azure Load Balancer"]
+    idaz["Entra ID (OIDC)"]
+  end
+
+  subgraph waist["Thin waist — the only contracts we depend on"]
+    k8sapi["Kubernetes API + declarative manifests"]
+    s3api["S3 API (MinIO)"]
+    oidc["OIDC identity"]
+    oci["OCI artifacts (Harbor)"]
+    oai["OpenAI-compatible model API"]
+  end
+
+  subgraph op["On-prem (target)"]
+    rk2["kubeadm / RKE2 / Cluster API"]
+    gpubm["Bare-metal H100/H200"]
+    metallb["MetalLB / BGP"]
+    dex["Dex / Keycloak (OIDC)"]
+  end
+
+  aks --> k8sapi
+  gpuaz --> k8sapi
+  lbaz --> k8sapi
+  idaz --> oidc
+  rk2 --> k8sapi
+  gpubm --> k8sapi
+  metallb --> k8sapi
+  dex --> oidc

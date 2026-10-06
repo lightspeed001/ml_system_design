@@ -1,2 +1,2 @@
 # ml_system_design
-Frontier Model System Design and Opimisation from Scratch
+## Frontier Model System Design and Optimisation from Scratch
