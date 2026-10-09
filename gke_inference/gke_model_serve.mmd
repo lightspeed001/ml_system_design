@@ -1,0 +1,18 @@
+flowchart TD
+  client["Clients / Apps"] --> cdn["Cloud Load Balancer"]
+  cdn --> gw["Gateway API / Ingress"]
+  gw --> router["Inference Gateway + Router"]
+  router --> c["Canary v2 Pods"]
+  router --> s["Stable v1 Pods"]
+  s --> gpu["GPU Node Pool (A3 / L4 / T4)"]
+  c --> gpu
+  s --> reg["Model Registry (Vertex AI / GCS)"]
+  c --> reg
+  router --> obs["Autoscaling + Observability"]
+  subgraph cluster["GKE Autopilot or Standard cluster, regional"]
+    gw
+    router
+    c
+    s
+  end
+  obs --> hpa["KEDA + Cluster Autoscaler / DWS"]
