@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant U as User
+  participant O as Orchestrator
+  participant S as Model (vLLM)
+  participant T as Tool sandbox
+  U->>O: Task (via gateway, SSE open)
+  O->>S: Reasoning call (step 1)
+  S-->>O: Tool call request
+  O->>T: Execute tool (sandboxed)
+  T-->>O: Result (validated)
+  O->>S: Reasoning call (step 2, with result)
+  S-->>O: Final answer
+  O-->>U: Streamed answer + citations
+  O->>O: Checkpoint run state
