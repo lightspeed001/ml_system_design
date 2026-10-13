@@ -1,0 +1,21 @@
+sequenceDiagram
+  participant M as Drift monitor
+  participant C as Controller
+  participant P as Pipeline
+  participant T as Training job - Kueue
+  participant E as Eval harness
+  participant R as Registry
+  participant S as Serving plane
+  M->>C: Drift above threshold
+  C->>C: Change + cooldown + budget gates
+  C-->>M: Suppressed - cooldown active
+  C->>P: Launch run against data snapshot vN
+  P->>T: Dispatch JobSet to Kueue - wait for completion
+  T->>T: Checkpointed run - Spot-safe
+  T->>P: Final weights + run metadata
+  P->>E: Score candidate on golden sets + judge
+  E-->>P: Below threshold - abort, alert
+  E->>R: Pass - register as challenger
+  R->>S: Promote + canary 1 - 10 - 50 - 100
+  S-->>R: SLO regression - auto-rollback
+  S-->>S: Regression traces feed golden set

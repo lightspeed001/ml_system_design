@@ -1,0 +1,13 @@
+flowchart TD
+  sched["Cloud Scheduler - cadence trigger"] --> ctl["Retraining Controller - policy + change gates"]
+  drift["Drift Monitors - BigQuery + Vertex AI Model Monitoring"] --> ctl
+  snap["Data pipeline commits new snapshot"] --> ctl
+  human["Human request - manual + incident triggers"] --> ctl
+  ctl --> pipe["Pipeline run - Vertex AI Pipelines"]
+  pipe --> train["Training via Kueue on GKE pools - training design"]
+  pipe --> eval["Eval gates - golden sets, LLM-as-judge, safety suites"]
+  eval --> reg["Model Registry - Vertex AI Model Registry"]
+  reg --> canary["Canary via Argo Rollouts - serving design"]
+  canary --> sig["Production signals - run logs, feedback, SLOs"]
+  sig --> drift
+  pipe --> meta["ML Metadata - lineage for every artifact"]

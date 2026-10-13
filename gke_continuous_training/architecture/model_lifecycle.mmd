@@ -1,0 +1,9 @@
+stateDiagram-v2
+  [*] --> Candidate: eval gates pass
+  Candidate --> Challenger: registered + awaiting approval or auto-promote
+  Challenger --> Canary: serving rollout starts at 1 percent
+  Canary --> Champion: SLOs held at 100 percent
+  Canary --> RolledBack: SLO regression - auto-rollback
+  RolledBack --> Candidate: postmortem traces enter golden set
+  Champion --> Archived: superseded by new champion
+  Archived --> Champion: emergency rollback - alias move
