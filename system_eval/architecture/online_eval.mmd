@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant U as User
+  participant R as Gateway router - platform layer
+  participant P as Champion - prod
+  participant S as Candidate - shadow
+  participant J as Async scorer - Spot pool
+  U->>R: Request
+  R->>P: 100 percent traffic - user-facing
+  P-->>U: Response
+  R->>S: Sampled copy - fire and forget
+  S-->>J: Candidate response + context
+  P-->>J: Champion response + context
+  J->>J: Judge both, compare scores, log delta
+  J->>J: Feed disagreements into golden-set candidates

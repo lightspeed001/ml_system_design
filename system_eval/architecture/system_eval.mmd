@@ -1,0 +1,14 @@
+flowchart TD
+  prod["Production traffic + traces - serving and agentic planes"] --> sample["Sampling + PII scrubbing"]
+  sample --> bq["BigQuery - the telemetry lake - run logs from all designs"]
+  bq --> offline["Offline eval harness - golden sets + judges"]
+  bq --> drift["Drift monitors - input, output, concept, embedding space"]
+  bq --> online["Online evals - shadow deployments + A/B tests"]
+  feedback["Human feedback queue - curated corrections"] --> golden["Golden sets - versioned in GCS"]
+  golden --> offline
+  offline --> scorecard["Scorecards - per candidate, per release"]
+  drift --> alerts["Drift alerts - to the MLOps controller"]
+  online --> slo["SLO + guardrail checks - canary auto-abort"]
+  scorecard --> promote["Promotion gate - MLOps design"]
+  slo --> rollback["Auto-rollback - Argo Rollouts"]
+  bq --> golden
