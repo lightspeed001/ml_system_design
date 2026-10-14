@@ -1,0 +1,21 @@
+flowchart TD
+  client["Clients - apps + agent orchestrators"] --> gw["Model Gateway"]
+  gw --> exact["Exact-match cache - Redis"]
+  exact -->|"hit"| resp["Response + cost log"]
+  exact -->|"miss"| sem["Semantic cache - vector search"]
+  sem -->|"hit above threshold"| resp
+  sem -->|"miss"| cls["Task classifier - small + fast"]
+  cls --> route["Routing policy engine - config in git"]
+  route --> small["Tier 1 - distilled model on vLLM L4 pool"]
+  route --> large["Tier 2 - flagship model on vLLM A3 pool"]
+  route --> vertex["Tier 3 - Vertex AI - overflow or specialty"]
+  route --> ext["External APIs - overflow or niche models"]
+  small --> judge["Confidence judge"]
+  judge -->|"low confidence"| large
+  judge -->|"good enough"| resp
+  large --> resp
+  vertex --> resp
+  ext --> resp
+  resp --> cost["BigQuery cost log - per request, per tenant"]
+  cost --> pol["Policy feedback - hit rates, cascade rates"]
+  pol --> route

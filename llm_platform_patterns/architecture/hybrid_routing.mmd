@@ -1,0 +1,21 @@
+sequenceDiagram
+  participant R as Gateway router
+  participant P as Policy engine
+  participant V as vLLM pool - self-hosted
+  participant A as Vertex AI
+  participant X as External API
+  R->>P: request class: tier-2 task, privacy: standard
+  P->>R: chain: self-hosted, fallback vertex
+  R->>V: Try primary
+  alt pool saturated or A3 capacity constrained
+    V-->>R: 429 / queue too deep
+    R->>A: Overflow to Vertex AI same model family
+    A-->>R: Response - billed per token at list
+  else healthy
+    V-->>R: Response at fleet cost
+  end
+  alt Vertex also failing - circuit open
+    R->>X: Last resort: external API
+    X-->>R: Response
+  end
+  R->>R: Log cost, provider, degradation path
