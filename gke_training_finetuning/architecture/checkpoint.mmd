@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant D as Data pipeline
+  participant T as Training job
+  participant E as Eval harness
+  participant R as Registry
+  participant S as Serving plane
+  D->>T: Versioned dataset snapshot
+  T->>T: Train, checkpoint to GCS
+  T->>E: Final adapter or full weights + run metadata
+  E->>E: Golden sets, LLM-as-judge, safety suites
+  E->>R: Scorecard attached to model version
+  R->>S: Promote as candidate
+  S->>S: Argo Rollouts canary 1 percent to 10 to 50 to 100
+  S-->>R: Canary SLOs failed, auto-rollback
+  S-->>R: Promoted, previous version kept warm

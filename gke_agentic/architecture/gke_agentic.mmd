@@ -1,0 +1,18 @@
+flowchart TD
+  client["Client (chat UI / API)"] --> lb["Cloud Load Balancer + Cloud Armor"]
+  lb --> gw["Gateway API (SSE / WebSocket support)"]
+  gw --> sess["Session Router (sticky sessions)"]
+  sess --> orch["Agent Orchestrator Pods (CPU pool)"]
+  orch --> state["Session State - Memorystore Redis"]
+  orch --> durable["Durable Checkpoints - Postgres / Spanner"]
+  orch --> mgw["Model Gateway"]
+  mgw --> vllm["vLLM GPU Pools (from serving design)"]
+  orch --> tools["Tool Execution Sandbox (gVisor pool)"]
+  tools --> ext["External APIs / Internal services"]
+  orch --> queue["Pub/Sub - async tasks and events"]
+  queue --> batch["Batch Agent Runs (GKE Jobs / Spot pool)"]
+  orch --> mem["Memory - Vector search + Postgres"]
+  orch --> hitl["Human Review Queue"]
+  obs["OpenTelemetry + Langfuse traces"]
+  orch --> obs
+  tools --> obs
